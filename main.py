@@ -8,15 +8,20 @@ class clean():
         self.file_categories = {
         'documents': ['.doc', '.docx', '.pdf', '.txt'],
         'images': ['.jpg', '.jpeg', '.png', '.gif'],
+        'videos' : ['.mp4', '.mov','.avi'],
+        'python' : ['.py' , '.ipynb'],
+        'powerpoint' : ['.pptx', '.pptm', '.ppt'],
+        'compressed' : ['.rar', '.zip'],
+        'programs' : ['.exe' ],
+        'others':[]
         }
 
     def setDirectory(self,directory_path):
         self.main_path = directory_path
-        self.to_directory = os.path.join(directory_path, self.date)
+        self.to_directory = os.path.join(self.main_path, self.date)
         
 
-
-    def organize_files(self):
+    def organizeFiles(self):
         for filename in os.listdir(self.main_path):
             if os.path.isfile(os.path.join(self.main_path, filename)):
 
@@ -39,13 +44,22 @@ class clean():
                     shutil.move(source_path, destination_path)
 
 
-    def createFolder(self,name):
-        new_directory = os.path.join(self.directory, name)
+    def createFolder(self,directory,name):
+        new_directory = os.path.join(directory, name)
         os.makedirs(new_directory, exist_ok=True)
 
-
     def createsFolders(self):
+        self.createFolder(self.main_path, self.date)
         for category in self.file_categories:
-            self.createFolder(category)
-        self.createFolder(self.to_directory)
+            self.createFolder(self.to_directory,category)
+        
 
+
+    def start(self,directory):
+        self.setDirectory(directory)
+        self.createsFolders()
+        self.organizeFiles()
+
+App = clean()
+p = r'C:\Users\o2m0a\Desktop\Organiser\test - Copy (2)'
+App.start(p)
