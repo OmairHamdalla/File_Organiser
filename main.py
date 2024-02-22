@@ -1,65 +1,73 @@
-from datetime import datetime 
-import os
-import shutil
+from customtkinter import *
+from CTkMessagebox import CTkMessagebox
+import organizer 
 
-class clean():
+class App(CTk):
+
     def __init__(self):
-        self.date = datetime.now().strftime("%d-%m-%Y")
-        self.file_categories = {
-        'documents': ['.doc', '.docx', '.pdf', '.txt'],
-        'images': ['.jpg', '.jpeg', '.png', '.gif'],
-        'videos' : ['.mp4', '.mov','.avi'],
-        'python' : ['.py' , '.ipynb'],
-        'powerpoint' : ['.pptx', '.pptm', '.ppt'],
-        'compressed' : ['.rar', '.zip'],
-        'programs' : ['.exe' ],
-        'others':[]
-        }
+        super().__init__()
+        self.Build()
+        self.printInfo()
+        self.cleaner = organizer.clean()
+#     # label
+#     self.label = ttk.Label(self, text='Hello, Tkinter!')
+#     self.label.pack()
+#     # button
 
-    def setDirectory(self,directory_path):
-        self.main_path = directory_path
-        self.to_directory = os.path.join(self.main_path, self.date)
+    
+    def Build(self):
+        self.title('Organizer App')
+        self.geometry('600x600')
+        self.geometry(f"+{660}+{240}")
+
+        self.columnconfigure((1,3), weight=1)
+        self.columnconfigure(2, weight=1)
+        self.rowconfigure((1,2,4,7,8) ,weight=1)
+        self.rowconfigure((3,5,6) ,weight=1)
+
+        self.text = CTkLabel(self, text="Hello").grid(row=3,column = 2)
+        self.download_button = CTkButton(self, text='Downloads', command = self.download_fun).grid(row=3,column=2)
+        self.download_button = CTkButton(self, text='Downloads', command = self.button_clicked).grid(row=4,column=2)
+        self.close_button = CTkButton(self, text='Exit', command = self.close_button).grid(row=5,column=2)
+
+
+    def download_fun(self):
+        msg = CTkMessagebox(title='Downloads', message='This will clean the downloads folder,\nAre you sure?',icon='check',
+                            options=["Yes","No"])
+        if msg.get() == "Yes":
+            # self.cleaner.setDirectory(self.cleaner.downloads_path)
+            self.cleaner.setDirectory(r'C:\Users\o2m0a\Desktop\Organiser\test - Copy (2)')
+
+    def close_fun(self):
+        msg = CTkMessagebox(title="Exit?", message="Do you want to close the program?",
+                            icon="warning",  options=["Yes","No"])
+        response = msg.get()
+        
+        if response=="Yes":
+            self.destroy()       
+        else:
+            print("Click 'Yes' to exit!")
+
+    def printInfo(self):
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        print("Screen Width:", screen_width)
+        print("Screen Height:", screen_height)
+
         
 
-    def organizeFiles(self):
-        for filename in os.listdir(self.main_path):
-            if os.path.isfile(os.path.join(self.main_path, filename)):
-
-                _, file_extension = os.path.splitext(filename)
-                file_extension = file_extension.lower()
-
-                file_category = None
-                for category, extensions in self.file_categories.items():
-                    if file_extension in extensions:
-                        file_category = category
-                        break
-
-                if not file_category:
-                    file_category = 'others'
-                    self.file_categories['others'].append(file_extension)
-
-                if file_category:
-                    source_path = os.path.join(self.main_path, filename)
-                    destination_path = os.path.join(self.to_directory, file_category, filename)
-                    shutil.move(source_path, destination_path)
-
-
-    def createFolder(self,directory,name):
-        new_directory = os.path.join(directory, name)
-        os.makedirs(new_directory, exist_ok=True)
-
-    def createsFolders(self):
-        self.createFolder(self.main_path, self.date)
-        for category in self.file_categories:
-            self.createFolder(self.to_directory,category)
+class newApp(App):
+    def __init__(self):
+        super().__init__()
+        print("hello")
         
 
+    
 
-    def start(self,directory):
-        self.setDirectory(directory)
-        self.createsFolders()
-        self.organizeFiles()
 
-App = clean()
-p = r'C:\Users\o2m0a\Desktop\Organiser\test - Copy (2)'
-App.start(p)
+
+if __name__ == "__main__":
+  app = App()
+  app.mainloop()
+ 
