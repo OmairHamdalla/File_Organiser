@@ -27,8 +27,7 @@ class App(CTk):
 
         self.text = CTkLabel(self, text="Hello").grid(row=3,column = 2)
         self.download_button = CTkButton(self, text='Downloads', command = self.download_fun).grid(row=3,column=2)
-        self.download_button = CTkButton(self, text='Downloads', command = self.button_clicked).grid(row=4,column=2)
-        self.close_button = CTkButton(self, text='Exit', command = self.close_button).grid(row=5,column=2)
+        self.close_button = CTkButton(self, text='Exit', command = self.close_fun).grid(row=5,column=2)
 
 
     def download_fun(self):
@@ -36,7 +35,7 @@ class App(CTk):
                             options=["Yes","No"])
         if msg.get() == "Yes":
             # self.cleaner.setDirectory(self.cleaner.downloads_path)
-            self.cleaner.setDirectory(r'C:\Users\o2m0a\Desktop\Organiser\test - Copy (2)')
+            self.cleaner.start(r'C:\Users\o2m0a\Desktop\Organiser\test - Copy (2)')
 
     def close_fun(self):
         msg = CTkMessagebox(title="Exit?", message="Do you want to close the program?",

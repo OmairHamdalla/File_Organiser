@@ -1,10 +1,13 @@
 from datetime import datetime 
 import os
 import shutil
+from pathlib import Path
+
 
 class clean():
     def __init__(self):
         self.date = datetime.now().strftime("%d-%m-%Y")
+        self.downloads_path = str(Path.home() / "Downloads")
         self.file_categories = {
         'documents': ['.doc', '.docx', '.pdf', '.txt'],
         'images': ['.jpg', '.jpeg', '.png', '.gif'],
