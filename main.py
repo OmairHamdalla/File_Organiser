@@ -27,11 +27,22 @@ class App(CTk):
 
         self.text = CTkLabel(self, text="Hello").grid(row=3,column = 2)
         self.download_button = CTkButton(self, text='Downloads', command = self.download_fun).grid(row=3,column=2)
+        self.select_button = CTkButton(self, text='Select', command = self.select_folder_fun).grid(row=4,column=2)
         self.close_button = CTkButton(self, text='Exit', command = self.close_fun).grid(row=5,column=2)
 
 
+    def select_folder_fun(self):
+        filepath = filedialog.askdirectory()
+        print(f"\nThe Dataset File Path {filepath}")
+        msg = CTkMessagebox(title='Downloads', message='This will clean the downloads folder,\nAre you sure?',icon='info',
+                            options=["Yes","No"])
+        if msg.get() == "Yes":
+            self.cleaner.start(fr'{filepath}')
+        
+    
+
     def download_fun(self):
-        msg = CTkMessagebox(title='Downloads', message='This will clean the downloads folder,\nAre you sure?',icon='check',
+        msg = CTkMessagebox(title='Downloads', message='This will clean the downloads folder,\nAre you sure?',icon='info',
                             options=["Yes","No"])
         if msg.get() == "Yes":
             # self.cleaner.setDirectory(self.cleaner.downloads_path)
