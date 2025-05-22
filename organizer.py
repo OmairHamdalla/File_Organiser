@@ -64,6 +64,7 @@ class clean():
 
 
     def organizeFiles(self, use_date_folders=False, date_mode="daily", selected_categories=None, skip_empty=True):
+        """Main Organizing method"""
         active_categories = {
             cat: exts.copy() for cat, exts in self.default_file_categories.items()
             if selected_categories is None or cat in selected_categories
@@ -91,6 +92,7 @@ class clean():
 
 
     def previewOrganization(self, use_date_folders=False, date_mode="monthly", selected_categories=None, skip_empty=True):
+        """Return the files/folders and how they would be organized"""
         preview = {}
         active_categories = {
             cat: exts.copy() for cat, exts in self.default_file_categories.items()
@@ -118,8 +120,7 @@ class clean():
                 preview[date_folder].setdefault(category, [])
                 preview[date_folder][category].append(filename)
 
-        # Optionally remove empty category folders from preview
-        if skip_empty:
+        if skip_empty: ## Always would anyway, Up for developers to change
             for date in list(preview.keys()):
                 preview[date] = {cat: files for cat, files in preview[date].items() if files}
                 if not preview[date]:
