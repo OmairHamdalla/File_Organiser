@@ -23,35 +23,45 @@ class clean():
             'others': []
         }
 
+
     def setDirectory(self, directory_path):
         self.main_path = directory_path
 
+
     def getFileCategory(self, extension, active_categories):
-        """Returns the file category based on active extensions."""
+        """This returns the file category based on selected active extensions."""
         for category, extensions in active_categories.items():
             if extension in extensions:
                 return category
         active_categories['others'].append(extension)
         return 'others'
 
+
     def createFolder(self, directory, name):
         os.makedirs(os.path.join(directory, name), exist_ok=True)
 
+
     def getDateFolderName(self, date_mode, file_date):
-        """Determines folder name based on selected date mode."""
+        """Determines proper folder name based on the selected date mode."""
+        
         if date_mode == "daily":
             return file_date.strftime("%d-%m-%Y")
+        
         elif date_mode == "weekly":
             year, week, _ = file_date.isocalendar()
             return f"Week-{week}-{year}"
+        
         elif date_mode == "monthly":
             return file_date.strftime("%B-%Y")
+        
         elif date_mode == "last_month":
             last_month = datetime.now().replace(day=1) - timedelta(days=1)
             if file_date.month == last_month.month and file_date.year == last_month.year:
                 return file_date.strftime("%B-%Y")
             return None
+        
         return datetime.now().strftime("%d-%m-%Y")
+
 
     def organizeFiles(self, use_date_folders=False, date_mode="daily", selected_categories=None, skip_empty=True):
         active_categories = {
@@ -74,9 +84,11 @@ class clean():
                     if os.path.exists(src):
                         shutil.move(src, dst)
 
+
     def start(self, directory, use_date_folders=False, date_mode="monthly", selected_categories=None, skip_empty=True):
         self.setDirectory(directory)
         self.organizeFiles(use_date_folders, date_mode, selected_categories, skip_empty)
+
 
     def previewOrganization(self, use_date_folders=False, date_mode="monthly", selected_categories=None, skip_empty=True):
         preview = {}
