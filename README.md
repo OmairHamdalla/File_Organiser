@@ -56,8 +56,21 @@ An intuitive GUI built with `customtkinter` that enables:
 - Button to start the organization process with confirmation dialog.
 
 ---
+## 🖥️ Installation
 
-
+1. **Clone this repository**:
+   ```
+   git clone https://github.com/OmairHamdalla/File_Organiser.git
+   cd File_Organiser
+   ```
+2. **Install requirements**:
+    ```
+    pip install customtkinter CTkMessagebox
+    ```
+3. Running the App
+    ```
+    python gui.py
+    ```
 
 ---
 
